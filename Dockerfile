@@ -1,12 +1,17 @@
-#Build Stage
+# Build Stage
 FROM node:20-alpine
 
 WORKDIR /app
 
+# 複製 package.json 和 package-lock.json（如果存在）
 COPY ./package.json ./package.json
-COPY ./yarn.lock ./yarn.lock
-RUN yarn install
+COPY ./package-lock.json ./package-lock.json
 
+# 安裝依賴
+RUN npm install
+
+# 複製剩餘的應用源代碼
 COPY . .
 
-CMD ["yarn", "run", "test"]
+# 容器啟動時執行的命令
+CMD ["npm", "run", "test"]
